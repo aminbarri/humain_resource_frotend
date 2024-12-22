@@ -72,7 +72,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block" id="nameprenom"></a>
         </div>
       </div>
 
@@ -221,21 +221,20 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="dist/js/tologin.js"></script>
 
 
 <script>
   $(document).ready(function () {
   $('#employeForm').on('submit', function (e) {
     e.preventDefault(); 
-    const password = $('#mot_de_passe').val();
-    const hashedPassword = CryptoJS.SHA256(password).toString(); 
+  
 
     var formData = {
       'nom': $('#nom').val(),
       'prenom': $('#prenom').val(),
       'login': $('#login').val(),
-      'mot_de_passe': hashedPassword,
+      'mot_de_passe': $('#mot_de_passe').val(),
       'role': $('select[name="role"]').val()
     };
 
