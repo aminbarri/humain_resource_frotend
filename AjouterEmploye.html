@@ -43,7 +43,9 @@
    
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-     
+      <li style="float: right;">
+        <button type="button" class="btn btn-block btn-danger" id="deconnexion">Déconnexion</button>
+     </li>
      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -261,6 +263,8 @@
         } else if (response.status === 'error') {
             
             alert(response.message); 
+            window.location.href = 'index.html';
+
         } else {
             console.error('Unexpected response:', response);
             alert('An unexpected error occurred. Please try again.');

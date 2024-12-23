@@ -43,7 +43,9 @@
    
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-     
+      <li style="float: right;">
+        <button type="button" class="btn btn-block btn-danger" id="deconnexion">Déconnexion</button>
+     </li>
      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -240,9 +242,10 @@
             success: function (response) {
                 const data = response; 
               
-                $('#nom').val(data.nom);
-                $('#prenom').val(data.prenom);
-                $('#login').val(data.login);
+                $('#nom').attr('placeholder', data.nom);
+                $('#prenom').attr('placeholder', data.prenom);
+                $('#login').attr('placeholder', data.login);
+
               
                 
                 let roleTitle = "Unknown"; 
@@ -259,7 +262,9 @@
                             break;
                 }
 
-                $('select[name="role"]').val(data.role);
+                $('select[name="role"]').prepend(
+                    `<option value="" disabled selected>${roleTitle}</option>`
+                );
                 sessionStorage.setItem('success_message', 'utilisateur a été modifié avec succès !');
              
             }  
@@ -294,8 +299,14 @@
          contentType: 'application/json',
          data: JSON.stringify(formData),
          success: function (response) {
-           sessionStorage.setItem('success_message', 'Utilisateur mis à jour avec succès !');
-           window.location.href = 'utilisateur.html'; 
+          if (response.status === 'success') {
+                 sessionStorage.setItem('success_message', 'Utilisateur mis à jour avec succès !');
+                 window.location.href = 'utilisateur.html'; 
+            }
+           else{                 
+            sessionStorage.setItem('success_message', 'rien à mettre à jour');
+            window.location.href = 'utilisateur.html'; 
+           }
          },
          error: function (xhr, status, error) {
            console.error('Error occurred:', error);

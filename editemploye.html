@@ -43,7 +43,9 @@
    
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-     
+      <li style="float: right;">
+        <button type="button" class="btn btn-block btn-danger" id="deconnexion">Déconnexion</button>
+     </li>
      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -243,11 +245,11 @@
             success: function (response) {
                 const data = response; 
                 
-                $('#nom').val(data.nom);
-                $('#prenom').val(data.prenom);
-                $('#email').val(data.mail);
-                $('textarea[name="address"]').val(data.adresse);
-                $('#telephone').val(data.telephone);
+                $('#nom').attr('placeholder', data.nom);
+                $('#prenom').attr('placeholder', data.prenom);
+                $('#email').attr('placeholder', data.mail);
+                $('textarea[name="address"]').attr('placeholder', data.adresse);
+                $('#telephone').attr('placeholder', data.telephone);
 
                 
                 let posteTitle = "Unknown"; 
@@ -265,9 +267,11 @@
                         posteTitle = "Unknown";
                         break;
                 }
+                $('select[name="poste"]').prepend(
+                    `<option value="" disabled selected>${posteTitle}</option>`
+                );
 
-                $('select[name="poste"]').val(data.poste);
-                sessionStorage.setItem('success_message', 'Lemployé a été modifié avec succès !');
+                sessionStorage.setItem('success_message', 'L&#39;employé a été modifié avec succès !');
              
             }  
         });
@@ -297,13 +301,19 @@
       contentType: 'application/json',
       data: JSON.stringify(formData),
       success: function (response) {
-        sessionStorage.setItem('success_message', 'Employé mis à jour avec succès !');
-        window.location.href = 'index.html'; 
+        if (response.status === 'success') {
+            sessionStorage.setItem('success_message', 'Employé mis à jour avec succès !');
+            window.location.href = 'index.html';
+        }
+           else{                 
+            sessionStorage.setItem('success_message', 'rien à mettre à jour');
+            window.location.href = 'index.html';
+           }
       },
       error: function (xhr, status, error) {
         console.error('Error occurred:', error);
         console.error(xhr.responseText); 
-        alert('An error occurred while updating the employee. Please try again.');
+        alert('Une erreur s&#39;est produite lors de la mise à jour de l&#39;employé. Veuillez réessayer.');
       }
     });
   });

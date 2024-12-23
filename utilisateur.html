@@ -32,7 +32,7 @@
   <div id="loader">
     <div class="spinner"></div>
 </div>
-<div class="wrapper" id="content">
+<div class="wrapper" id="">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -47,7 +47,9 @@
    
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-     
+      <li style="float: right;">
+        <button type="button" class="btn btn-block btn-danger" id="deconnexion">Déconnexion</button>
+     </li>
      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -245,6 +247,8 @@
 <script src="dist/js/tologin.js"></script>
 
 <script>
+    let userRole = localStorage.getItem('userRole');
+
   function fetchAllUtilisateur() {
         $.ajax({
             url: 'http://localhost/mini_project_codelghniter/index.php/utilisateur/dataempl',
@@ -296,12 +300,16 @@
                         
                     `;
                     tableBody.append(row);
+                    if (userRole !== '1') {
+                        $('.hidethisitem').hide();
+                    }
                   
                 });
+               
                 $('#loader').fadeOut();
                 setTimeout(function() {
                   $('#content').fadeIn();
-                }, 3000); 
+                }, 2000); 
               },
             error: function (xhr, status, error) {
                 console.log('Error occurred: ' + error);
@@ -371,6 +379,9 @@
                       
                     `;
                     tableBody.append(row);
+                    if (userRole !== '1') {
+                        $('.hidethisitem').hide();
+                    }
                   
                 });
               }
@@ -397,10 +408,10 @@
         const $contenmessage = $('#contenmessage');
 
         $contenmessage.text(successMessage);
-        $messageElement.show(); // Display the success message
+        $messageElement.show(); 
 
         setTimeout(function () {
-            $messageElement.hide(); // Hide the message after 4 seconds
+            $messageElement.hide(); 
             sessionStorage.removeItem('success_message');
         }, 4000);
     }
@@ -411,10 +422,10 @@
         const $contenmessage = $('#contenmessage');
 
         $contenmessage.text(deleteMessage);
-        $messageElement.show(); // Display the delete message
+        $messageElement.show(); 
 
         setTimeout(function () {
-            $messageElement.hide(); // Hide the message after 4 seconds
+            $messageElement.hide(); 
             sessionStorage.removeItem('success_message_delete');
         }, 4000);
     }
@@ -436,7 +447,7 @@ function deleteUtilisateur() {
                 console.log(response);
                    if (response.status === 'success') {
                        sessionStorage.setItem('success_message_delete', 'Utilisateur a été supprimé avec succès !');
-                       fetchAllUtilisateur()
+                       location.reload();
                    } else {
                        console.log(response.status);
                    }

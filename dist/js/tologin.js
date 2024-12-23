@@ -52,4 +52,12 @@ $(document).ready(function () {
             $('.hidethisitem').hide();
         }
     }, 3000); 
+
 });
+
+function removeElementtd(userRole){
+    
+    if (userRole !== '1') {
+        $('.hidethisitem').hide();
+    }
+}

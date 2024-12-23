@@ -36,7 +36,7 @@
   <div id="loader">
         <div class="spinner"></div>
     </div>
-<div class="wrapper" id="content">
+<div class="wrapper" id="">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -255,6 +255,7 @@
 <script src="dist/js/tologin.js"></script>
 
 <script>
+  let userRole = localStorage.getItem('userRole');
   function fetchAllEmployees() {
         $.ajax({
             url: 'http://localhost/mini_project_codelghniter/index.php/employe/dataempl',
@@ -309,12 +310,15 @@
                         
                     `;
                     tableBody.append(row);
+                     if (userRole !== '1') {
+                        $('.hidethisitem').hide();
+                    }
                   
                 });
                 $('#loader').fadeOut();
                 setTimeout(function() {
                   $('#content').fadeIn();
-                }, 3000); 
+                }, 2000); 
                 
               },
             error: function (xhr, status, error) {
@@ -342,7 +346,7 @@
                    if (response.status === 'success') {
                        sessionStorage.setItem('success_message_delete', 'L employé a été supprimé avec succès !');
                        messageDeleteShowing();
-                       fetchAllEmployees();
+                       location.reload();
                    } else {
                        console.log(response.status);
                    }
@@ -355,6 +359,7 @@
    });
 }
 deleteEmploye();
+
 
 function fetchCustomEmployees(){
         var searchData= $("#search").val().trim();
@@ -380,6 +385,7 @@ function fetchCustomEmployees(){
                 } else {
           
                 employees.forEach(function (employee ) {
+
                     let posteTitle = "";
                     switch (employee.poste) {
                         case "1":
@@ -395,7 +401,7 @@ function fetchCustomEmployees(){
                             posteTitle = "Unknown";  // Handle any unexpected values
                             break;
                     }
-                   if(localStorage.getItem('userRole') ==='1'){
+                   
                     let row = `
                     <tr role="row" class="odd">
                   <td>${employee.nom}</td>
@@ -421,22 +427,12 @@ function fetchCustomEmployees(){
                 </tr>
                         
                     `;
-                  }
-                  else{
-                    let row = `
-                    <tr role="row" class="odd">
-                  <td>${employee.nom}</td>
-                  <td>${employee.prenom}</td>
-                  <td style="">${employee.mail}</td>
-                  <td style="">${employee.adresse}</td>
-                  <td class="dtr-control sorting_1" tabindex="0">${employee.telephone}</td>
-                  <td>${posteTitle}</td>
-                </tr>
-                        
-                    `
-                  }
+                 
                     tableBody.append(row);
-                  
+                    if (userRole !== '1') {
+                        $('.hidethisitem').hide();
+                    }
+                                  
                 });
               }
             },
@@ -451,9 +447,11 @@ function fetchCustomEmployees(){
         if (searchValue === "") {
            
             fetchAllEmployees();
+           
         }
         else{
             fetchCustomEmployees();
+            
         }
     })
    function messageDeleteShowing(){
